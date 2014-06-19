@@ -1,6 +1,5 @@
 {
     "eqeqeq": true,
-    "forin": true,
     "freeze": true,
     "immed": true,
     "latedef": "nofunc",
