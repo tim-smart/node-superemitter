@@ -1,0 +1,30 @@
+{
+  "name": "superemitter",
+  "version": "0.1.0",
+  "description": "Fast event emitter for special cases",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jscs": "^1.5.3",
+    "jshint": "^2.5.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "ln -sf '../../hooks/pre-commit' .git/hooks/pre-commit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tim-smart/node-superemitter.git"
+  },
+  "keywords": [
+    "eventemitter",
+    "super",
+    "jit"
+  ],
+  "author": "Tim Smart <tim@foste.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tim-smart/node-superemitter/issues"
+  },
+  "homepage": "https://github.com/tim-smart/node-superemitter"
+}
