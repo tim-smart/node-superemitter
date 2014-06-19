@@ -1,15 +1,15 @@
-var vm = require('vm');
-
 /**
  * Supermitter - A compile-on-the-fly event emitter
  *
  * @constructor
  */
 function Supermitter() {
-    this._events  = {};
-    this._counter = 0;
+    this._events    = {};
+    this._eventKeys = [];
+    this._counter   = 0;
 }
 
+module.exports = Supermitter;
 var proto = Supermitter.prototype;
 
 /**
@@ -24,7 +24,6 @@ proto.on = function on(event, fn) {
         this._events[event] = [];
     }
     this._events[event].push(this._assign(fn));
-
     this.recompile();
 
     return this;
@@ -37,6 +36,7 @@ proto.on = function on(event, fn) {
  * @return {Supermitter}
  */
 proto.recompile = function recompile() {
+    /* jshint evil:true */
     var events = null; // Array
     var out    = null; // Array
     var method = null; // String
@@ -45,12 +45,13 @@ proto.recompile = function recompile() {
     // Generate emit()
     out = [
         '(function (event, data) {',
+        '  event = \'\' + event;',
         '  switch (event) {'
     ];
-    events = Object.keys(this._events);
 
-    for (var i = 0, il = events.length; i < il; i += 1) {
-        key = events[i];
+    this._eventKeys = [];
+    for (key in this._events) {
+        this._eventKeys.push(key);
 
         out.push('  case "' + key + '":');
 
@@ -65,7 +66,7 @@ proto.recompile = function recompile() {
     out.push('  }', '  return false;', '})');
     out = out.join('\n');
 
-    this.emit = vm.runInThisContext(out);
+    this.emit = eval(out);
 
     events = out = method = key = null;
 
